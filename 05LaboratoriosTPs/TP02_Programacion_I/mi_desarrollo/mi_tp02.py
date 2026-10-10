@@ -46,6 +46,9 @@ def comando_es_valido(comando):
 # =====================================================================
 #  PARTE 2 - Ejecutar un comando
 # =====================================================================
+VELOCIDAD_MAX =0.20
+GIRO_MAX =0.50
+TIEMPO_MAX =10
 def ejecutar_comando(robot, comando):
     """Ejecuta UN comando en el robot. Devuelve un texto con lo que paso.
 
@@ -61,6 +64,19 @@ def ejecutar_comando(robot, comando):
     Eso llega como un ErrorDeSeguridad y conviene atraparlo.
     """
     # TU CODIGO ACA
+    nombre = comando[0]
+
+    if nombre == "avanzar":
+        velocidad = comando[1]
+        tiempo = comando[2]
+        if velocidad > VELOCIDAD_MAX or velocidad < -VELOCIDAD_MAX:
+            resultado = "Rechazado: la velocidad supera " + str(VELOCIDAD_MAX) + " m/s."
+        elif tiempo > TIEMPO_MAX:
+            resultado = "Rechazado: el tiempo supera " + str(TIEMPO_MAX) + " s."
+        else:
+            robot.avanzar(velocidad=velocidad, tiempo=tiempo)
+            resultado = "Avanza Hacia " + str(velocidad) + " m/s durante " + str(tiempo) + " s."
+
     pass
 
 
