@@ -117,18 +117,57 @@ def ejecutar_comando(robot, comando):
 # =====================================================================
 #  PARTE 3 - Recorrer la mision entera
 # =====================================================================
+
 def ejecutar_mision(robot, mision, historial):
     """Recorre la lista de comandos, uno por uno.
-
+ 
     Por cada comando:
       - si NO es valido, lo rechaza y sigue con el siguiente
       - si es valido, lo ejecuta
       - en los dos casos, guarda en 'historial' que fue lo que paso
-
+ 
     Un comando invalido NO tiene que cortar la mision.
     """
-    # TU CODIGO ACA
-    pass
+    for comando in mision:
+        if not comando_es_valido(comando):
+            historial.append({
+                "comando": comando,
+                "estado": "rechazado",
+                "motivo": motivo_invalido(comando),
+            })
+            continue
+ 
+        resultado = ejecutar_comando(robot, comando)
+        if resultado.lower().startswith("rechazado"):
+            estado = "rechazado"
+        else:
+            estado = "ejecutado"
+        historial.append({
+            "comando": comando,
+            "estado": estado,
+            "motivo": resultado,
+        })
+ 
+ 
+def motivo_invalido(comando):
+    """Devuelve un texto que explica por que un comando no es valido."""
+    if len(comando) == 0:
+        return "Rechazado: el comando esta vacio."
+    nombre = comando[0]
+    if nombre in ("detenerse", "saludar"):
+        return "Rechazado: '" + str(nombre) + "' no lleva datos."
+    if nombre in ("avanzar", "girar"):
+        if len(comando) != 3:
+            return "Rechazado: '" + nombre + "' necesita velocidad y tiempo."
+        velocidad = comando[1]
+        tiempo = comando[2]
+        if type(velocidad) not in (int, float) or type(tiempo) not in (int, float):
+            return "Rechazado: velocidad y tiempo tienen que ser numeros."
+        if tiempo < 0:
+            return "Rechazado: el tiempo no puede ser negativo."
+    return "Rechazado: el comando '" + str(nombre) + "' no existe."
+ 
+ 
 
 
 # =====================================================================
