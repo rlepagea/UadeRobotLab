@@ -9,14 +9,13 @@
 #    2. Espera a que aparezca la ventana con el robot
 #    3. Recien ahi ejecuta este archivo
 #
-#  Nombre y apellido:  .....................................
-#  Comision:           .....................................
+#  Nombre y apellido: Rafael Lepage, Austin Zacarias Steel, Juan , Geronimo
+#  Comision:          Lunes Noche
 # =====================================================================
 
 from robot import ErrorDeSeguridad, Robot
 
 from misiones import MISION_BASICA, MISION_CON_ERRORES, MISION_CUADRADO
-
 
 # =====================================================================
 #  PARTE 1 - Validar un comando
@@ -30,7 +29,6 @@ def comando_es_valido(comando):
         ("girar", velocidad, tiempo)      velocidad en rad/s, tiempo en s
         ("detenerse",)
         ("saludar",)
-
     Cosas que conviene revisar:
       - que la tupla no este vacia
       - que el nombre del comando sea uno de los cuatro validos
@@ -39,8 +37,20 @@ def comando_es_valido(comando):
       - que velocidad y tiempo sean numeros de verdad, no textos
       - que el tiempo no sea negativo
     """
-    # TU CODIGO ACA
-    pass
+    if len(comando) == 0:
+        return False
+    nombre = comando[0]
+    if nombre in ("detenerse", "saludar"):
+        return len(comando) == 1
+    if nombre in ("avanzar", "girar"):
+        if len(comando) != 3:
+            return False
+        velocidad = comando[1]
+        tiempo = comando[2]
+        if type(velocidad) not in (int, float) or type(tiempo) not in (int, float):
+            return False
+        return tiempo >= 0
+    return False
 
 
 # =====================================================================
