@@ -56,6 +56,10 @@ def comando_es_valido(comando):
 # =====================================================================
 #  PARTE 2 - Ejecutar un comando
 # =====================================================================
+
+Velocidad_Max=0.20
+Giro_Max =0.50
+Tiempo_Max =10
 def ejecutar_comando(robot, comando):
     """Ejecuta UN comando en el robot. Devuelve un texto con lo que paso.
 
@@ -71,7 +75,43 @@ def ejecutar_comando(robot, comando):
     Eso llega como un ErrorDeSeguridad y conviene atraparlo.
     """
     # TU CODIGO ACA
-    pass
+
+
+    nombre = comando[0]
+    try:
+       if nombre == "avanzar":
+        velocidad = comando[1]
+        tiempo = comando[2]
+        if velocidad > Velocidad_Max or velocidad < -Velocidad_Max:
+            resultado = "Rechazado la velocidad supera " + str(Velocidad_Max) + " m/s."
+        elif tiempo > Tiempo_Max:
+            resultado = "Rechazado el tiempo supera " + str(Tiempo_Max) + " s."
+        else:
+            robot.avanzar(velocidad=velocidad, tiempo=tiempo)
+            resultado = "Avanza Hacia " + str(velocidad) + " m/s durante " + str(tiempo) + " s."
+
+       elif nombre =="girar":
+         velocidad = comando[1]
+         tiempo = comando[2]
+         if velocidad >Giro_Max or velocidad<-Giro_Max:
+            resultado= "Rechazado el giro supera"+ str(Giro_Max) + "rad/s"
+         elif tiempo > Tiempo_Max:
+            resultado = "Rechazado el tiempo supera " + str(Tiempo_Max) + " s."
+         else:
+            robot.girar(velocidad=velocidad,tiempo=tiempo)
+            resultado = "Giro a " + str(velocidad)+ "durante " + str(tiempo)+"s"
+
+       elif nombre =="detenerse":
+         robot.detenerse()
+         resultado= "El robot se detuvo"
+    
+       elif nombre =="saludar":
+         robot.saludar()
+         resultado="El robot saludo"
+    except ErrorDeSeguridad as error:
+        resultado ="rechazado por seguridad:"+ str(error)
+    return resultado
+    
 
 
 # =====================================================================
