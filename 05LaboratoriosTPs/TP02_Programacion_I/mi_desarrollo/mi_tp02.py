@@ -181,8 +181,35 @@ def generar_reporte(historial):
       - cuantos se rechazaron
       - cual fue el motivo de cada rechazo
     """
-    # TU CODIGO ACA
-    pass
+    ejecutados = 0
+    rechazados = []
+
+    for registro in historial:
+        if registro["estado"] == "ejecutado":
+            ejecutados = ejecutados + 1
+        else:
+            rechazados.append(registro)
+
+    print()
+    print("=" * 50)
+    print("              REPORTE DE LA MISION")
+    print("=" * 50)
+    print("Comandos totales:     " + str(len(historial)))
+    print("Ejecutados con exito: " + str(ejecutados))
+    print("Rechazados:           " + str(len(rechazados)))
+    print("-" * 50)
+
+    if len(rechazados) == 0:
+        print("No hubo comandos rechazados. Mision completa.")
+    else:
+        print("Detalle de los rechazos:")
+        numero = 1
+        for registro in rechazados:
+            print("  " + str(numero) + ". " + str(registro["comando"]))
+            print("     Motivo: " + registro["motivo"])
+            numero = numero + 1
+
+    print("=" * 50)
 
 
 # =====================================================================
