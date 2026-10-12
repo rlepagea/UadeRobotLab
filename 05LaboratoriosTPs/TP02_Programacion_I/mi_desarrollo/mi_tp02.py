@@ -94,12 +94,12 @@ def ejecutar_comando(robot, comando):
          velocidad = comando[1]
          tiempo = comando[2]
          if velocidad >Giro_Max or velocidad<-Giro_Max:
-            resultado= "Rechazado el giro supera"+ str(Giro_Max) + "rad/s"
+            resultado= "Rechazado el giro supera "+ str(Giro_Max) + " rad/s "
          elif tiempo > Tiempo_Max:
             resultado = "Rechazado el tiempo supera " + str(Tiempo_Max) + " s."
          else:
             robot.girar(velocidad=velocidad,tiempo=tiempo)
-            resultado = "Giro a " + str(velocidad)+ "durante " + str(tiempo)+"s"
+            resultado = "Giro a " + str(velocidad)+ " rad/s durante " + str(tiempo)+" s "
 
        elif nombre =="detenerse":
          robot.detenerse()
